@@ -2,18 +2,30 @@ import 'dart:js';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:otp_authentication_app/home.dart';
 import 'package:otp_authentication_app/otp.dart';
 import 'package:otp_authentication_app/phone.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyBBFcOC2E8SaH-S4ayS0vfbm6cjqi0h-_k",
+        authDomain: "phone-firebase-1a067.firebaseapp.com",
+        projectId: "phone-firebase-1a067",
+        storageBucket: "phone-firebase-1a067.appspot.com",
+        messagingSenderId: "177039774561",
+        appId: "1:177039774561:web:b186d7b10eba73da3f2b20",
+        measurementId: "G-S2BGQ279E7"
+      ),
+  );
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     initialRoute: 'phone',
     routes: {
       'phone': (context) => MyPhone(),
       'otp' : (context) => MyOtp(),
+      'home' : (context)=> MyHome(),
     },
 
   ));
