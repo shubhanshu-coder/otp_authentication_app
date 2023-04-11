@@ -3,11 +3,13 @@ import 'dart:js';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_authentication_app/home.dart';
+import 'package:otp_authentication_app/main_page.dart';
 import 'package:otp_authentication_app/otp.dart';
 import 'package:otp_authentication_app/phone.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyBBFcOC2E8SaH-S4ayS0vfbm6cjqi0h-_k",
@@ -21,8 +23,9 @@ void main() async{
   );
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: 'phone',
+    initialRoute: 'main',
     routes: {
+      'main' :(context)=>MyMainPage(),
       'phone': (context) => MyPhone(),
       'otp' : (context) => MyOtp(),
       'home' : (context)=> MyHome(),

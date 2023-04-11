@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -6,7 +8,8 @@ class MyPhone extends StatefulWidget {
   const MyPhone({Key? key}) : super(key: key);
 
   static String verify="";
-
+  static String phoneNumber="";
+  static int forceIdToken=0;
   @override
   State<MyPhone> createState() => _MyPhoneState();
 }
@@ -20,8 +23,8 @@ class _MyPhoneState extends State<MyPhone> {
   @override
   void initState() {
     // TODO: implement initState
-    countrycode.text="+91";
     super.initState();
+    countrycode.text="+91";
   }
 
   @override
@@ -66,14 +69,22 @@ class _MyPhoneState extends State<MyPhone> {
                 child: Row(
                   children: [
                     SizedBox(
+                      height: 140,
+                    ),
+                    Image.asset(
+                      'assets/india.png',
+                      width: 30,
+                      height: 30,
+                    ),
+                    SizedBox(
                       width: 10,
                     ),
                     SizedBox(
                       width: 40,
                       child: TextField(
+                        enabled: false,
                         keyboardType: TextInputType.phone,
                         onChanged: (value){
-                          phone = value;
                         },
                         controller: countrycode,
                         decoration: InputDecoration(
@@ -95,6 +106,10 @@ class _MyPhoneState extends State<MyPhone> {
                         decoration: InputDecoration(
                             border: InputBorder.none, hintText: "Phone"
                         ),
+                        onChanged: (value){
+                          phone=value;
+
+                        },
                       ),
                     ),
                   ],
@@ -107,19 +122,28 @@ class _MyPhoneState extends State<MyPhone> {
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(onPressed: () async{
+                  String phoneNumber=countrycode.text+phone;
                   await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: '${countrycode.text+phone}',
-                    verificationCompleted: (PhoneAuthCredential credential) {},
-                    verificationFailed: (FirebaseAuthException e) {},
-                    codeSent: (String verificationId, int? resendToken) {
+                    phoneNumber: phoneNumber,
+                    verificationCompleted: (PhoneAuthCredential credential) {
 
+                    },
+                    verificationFailed: (FirebaseAuthException e) {
+                      // phoneNumber
+                      // country
+                    },
+                    codeSent: (String verificationId, int? resendToken) {
+                    // otp send successfully
                       MyPhone.verify=verificationId;
+                      MyPhone.phoneNumber=phoneNumber;
+                      if(resendToken!=null)
+                      MyPhone.forceIdToken=resendToken;
                       Navigator.pushNamed(context, "otp");
                     },
-                    codeAutoRetrievalTimeout: (String verificationId) {},
-                  );
-                  // Navigator.pushNamed(context, "otp");
-                }, child: Text('Send the code'),style: ElevatedButton.styleFrom(primary: Colors.green.shade600, shape: RoundedRectangleBorder(
+                    codeAutoRetrievalTimeout: (String verificationId) {
+
+                  });
+                }, child: Text('CONTINUE'),style: ElevatedButton.styleFrom(primary: Colors.green.shade600, shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 )
                 ),),

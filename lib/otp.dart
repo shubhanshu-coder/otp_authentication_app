@@ -112,7 +112,7 @@ class _MyOtpState extends State<MyOtp> {
 
                     }
                 },
-                  child: const Text('Verify Phone Number'),style: ElevatedButton.styleFrom(primary: Colors.green.shade600, shape: RoundedRectangleBorder(
+                  child: const Text('VERIFY AND CONTINUE'),style: ElevatedButton.styleFrom(primary: Colors.green.shade600, shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 )
                 ),),
